@@ -28,24 +28,33 @@
 ## TabConfig
 首页底部菜单扩展接口,可以参考样例项目中类[TabConfigImpl](https://git.shinemo.com/projects/YOUBAN/repos/mdos/browse/app/src/main/java/com/example/OneMDOS/TabConfigImpl.java?at=refs%2Fheads%2Fportal)
 ```java
-    //需要与getFragment的类型对应
-    boolean isValidMenu(AppMenuVo menuVo);
-    //根据配置返回Fragment
-    Class<?> getFragmentClass(AppMenuVo menuVo);
-    //配置底部导航需要的参数
-    void setArgument(Bundle args);
-    //配置菜单对应的页面，如MessageFragment,ContactFragment
-    Fragment getFragment(AppMenuVo menuVo);
+    public interface TabConfig {
+    
+        //需要与getFragment的类型对应
+        boolean isValidMenu(AppMenuVo menuVo);
+
+        //根据配置返回Fragment
+        Class<?> getFragmentClass(AppMenuVo menuVo);
+
+        //配置底部导航需要的参数
+        void setArgument(Bundle args);
+
+        //配置菜单对应的页面，如MessageFragment,ContactFragment
+        Fragment getFragment(AppMenuVo menuVo);
+}
 ```
 
 ## ComponentConfig
 门户组件扩展接口，可以实现这个接口，根据需求注入项目中新增的门户组件
-```
+```java
+   public interface ComponentConfig {
+
     //是否需要统一调用数据源接口
     boolean needPortalContent(AppPortalElementVo elementVo);
 
     //ViewHolder视图
     BasePortalViewHolder getViewHolder(BaseFragment fragment, ViewGroup parent, int elementType);
+}
 ```
 
 
@@ -53,28 +62,36 @@
 项目中需要需要实现这个方法
 
 ```java
-//主项目中需要实现的(一般取值都是对应AccountManager中的方法)
 public interface IAccountManager {
+    
     long getNowTime(); // 对应AccountManager的getNowTime()
+   
     String getUserId(); //用户id
+   
     long getCurrentOrgId(); // 当前企业id
+   
     String getName();  //获取用户名
+   
     String getCurrentOrgName(); //当前企业名称
 }
 ```
 ## ICommonManager
 通用的接口
 ```java
-//用来处理一些通用的接口
 public interface ICommonManager {
+    
     // CommonRedirectActivity.start()
     void commonRedirectActivityStart(Context context, String uri); 
+    
     //shinemo中HomePageUtils.checkCalendarPermission()
     void checkCalendarPermission(Activity activity, List<AppPortalElementVo> mModulelist);
+       
     //shinemo中HomePageUtils.getWeather()
-    void getWeather(Activity activity, CompositeDisposable mCompositeSubscription, TextView tvWeather);  
+    void getWeather(Activity activity, CompositeDisposable mCompositeSubscription, TextView tvWeather);
+    
     // AppCommonUtils中的getBrandColor
     String getBrandColor(Context context);
+    
     //OutsideActivity.startActivity
     void startOutSideActivity(Context context, int tab); 
 }
@@ -95,10 +112,10 @@ public interface ICommonManager {
 1. 添加依赖 `implementation 'com.shinemo:portal:1.0.0'`;
 2. 创建`IAccountManager`和`ICommonManager`的实现类;
 3. 初始化
-    1. 在`Application`中调用`PortalConfig.init(Application application, IAccountManager iAccountManager, ICommonManager iCommon)`
-    2. `PortalConfig.setEnvUrl("XXX")`;
-    3. 如需要扩展首页菜单，创建`TabConfig`实现类 `A`，然后调用`PortalConfig.setTabConfig(new A())`;
-    4. 如需要扩展门户组件，创建`ComponentConfig` 实现类 `B`,然后调用`PortalConfig.setComponentConfig(new B())`;
+   1. 在`Application`中调用`PortalConfig.init(Application application, IAccountManager iAccountManager, ICommonManager iCommon)`
+   2. `PortalConfig.setEnvUrl("XXX")`;
+   3. 如需要扩展首页菜单，创建`TabConfig`实现类 `A`，然后调用`PortalConfig.setTabConfig(new A())`;
+   4. 如需要扩展门户组件，创建`ComponentConfig` 实现类 `B`,然后调用`PortalConfig.setComponentConfig(new B())`;
 4. 创建MainActivity 继承PortalMainActivity;
 5. 创建`PortalMainAction`的实现类,在创建MainActivity中重新方法`getPortalMainAction()`;
 
