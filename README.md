@@ -1,3 +1,15 @@
+# 依赖地址
+- [Snapshot](http://10.0.20.190:8081/#browse/browse:android_repository_snapshot:com%2Fshinemo%2Fportal)  
+
+- [Release](http://10.0.20.190:8081/#browse/browse:android_repository:com%2Fshinemo%2Fportal)
+
+# 概述
+[github查看README](https://github.com/aileelucky/portal/edit/main/README.md)  
+- 本SDK是包含UI的项目，自带首页、门户页功能，但因为应用中心、小程序SDK等没有接入的原因，所以不包含应用组件和小程序组件；  
+- 首页底部菜单支持项目中扩充，门户组件也支持项目中新增；  
+- 目前SDK中门户组件内容比较少，数据都是mock的，集成到项目需要更新SDK版本;
+
+
 # 主要类：
 ## PortalManiActivity  
 门户主页面，项目中，首页继承这个页面，就可以使用门户功能，这个页面包含了UI和首页底部菜单的逻辑。底部菜单目前就有一个门户页面，其它页面（类似"我的"、"消息"等），可以自由扩展，页面最多显示五个菜单，多的需要配置出"更多"按钮，可以把多的页面收纳。
@@ -54,8 +66,15 @@ public interface ICommonManager {
 }
 ```
 
-## 集成步骤
-在Application中调用PortalConfig.init(Application application, IAccountManager iAccountManager, ICommonManager iCommon)
+# 集成步骤
+1. 添加依赖 `implementation 'com.shinemo.module:aace:1.0.3'`;
+2. 创建`IAccountManager`和`ICommonManager`的实现类;
+3. 初始化
+    1. 在`Application`中调用`PortalConfig.init(Application application, IAccountManager iAccountManager, ICommonManager iCommon)`
+    2. `PortalConfig.setEnvUrl("XXX")`;
+    3. 如需要扩展首页菜单，创建`TabConfig`实现类 `A`，然后调用`PortalConfig.setTabConfig(new A())`;
+    4. 如需要扩展门户组件，创建`ComponentConfig` 实现类 `B`,然后调用`PortalConfig.setComponentConfig(new B())`;
+4. 创建MainActivity 继承PortalMainActivity;
+5. 创建`PortalMainAction`的实现类,在创建MainActivity中重新方法`getPortalMainAction()`;
 
-EventOrgChange 要使用SDK中的
 
