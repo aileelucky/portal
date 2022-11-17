@@ -4,7 +4,7 @@
 - [Release](http://10.0.20.190:8081/#browse/browse:android_repository:com%2Fshinemo%2Fportal)
 
 # 概述
-[github查看README](https://github.com/aileelucky/portal/edit/main/README.md)  
+[github查看README](https://github.com/aileelucky/portal)  
 - 本SDK是包含UI的项目，自带首页、门户页功能，但因为应用中心、小程序SDK等没有接入的原因，所以不包含应用组件和小程序组件；  
 - 首页底部菜单支持项目中扩充，门户组件也支持项目中新增；  
 - 目前SDK中门户组件内容比较少，数据都是mock的，集成到项目需要更新SDK版本;
