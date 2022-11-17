@@ -41,11 +41,16 @@ public interface IAccountManager {
 ```java
 //用来处理一些通用的接口
 public interface ICommonManager {
-    void commonRedirectActivityStart(Context context, String uri); // CommonRedirectActivity.start()
-    void checkCalendarPermission(Activity activity, List<AppPortalElementVo> mModulelist);//shinemo中HomePageUtils.checkCalendarPermission()
-    void getWeather(Activity activity, CompositeDisposable mCompositeSubscription, TextView tvWeather);  //shinemo中HomePageUtils.getWeather()
-    String getBrandColor(Context context);// AppCommonUtils中的getBrandColor
-    void startOutSideActivity(Context context, int tab); //OutsideActivity.startActivity
+    // CommonRedirectActivity.start()
+    void commonRedirectActivityStart(Context context, String uri); 
+    //shinemo中HomePageUtils.checkCalendarPermission()
+    void checkCalendarPermission(Activity activity, List<AppPortalElementVo> mModulelist);
+    //shinemo中HomePageUtils.getWeather()
+    void getWeather(Activity activity, CompositeDisposable mCompositeSubscription, TextView tvWeather);  
+    // AppCommonUtils中的getBrandColor
+    String getBrandColor(Context context);
+    //OutsideActivity.startActivity
+    void startOutSideActivity(Context context, int tab); 
 }
 ```
 
