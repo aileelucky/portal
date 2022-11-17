@@ -16,7 +16,7 @@
 
 ## PortalConfig
 用来配置一些初始化参数,建议在`MainActivity`初始化  
-| 参数 | 描述 |必须|
+| 变量 | 描述 |必须|
 |---|------------|---|
 |TabConfig|首页导航配置，在这里扩展首页底部菜单，包含类型和页面|否|
 |envUrl|当前环境地址:<br>切换环境要记得更新，主要用来拼接图片、文件的url<br>因为安全问题，图片的链接可能不带域名|是|
@@ -24,16 +24,30 @@
 |IAccountManager|主项目中需要实现的(一般取值都是对应`AccountManager`中的方法)|是|
 |ICommonManager|用来处理一些通用的接口,项目中要实现|是|
 
-## PortalMainAction
-集成PortalMainActivity后，需要实现的方法，并不是全部需要实现，
-| 参数 | 描述 |必须|
-|---|------------|---|
-|logout()|退出登录|是|
-|initMessageCount()|处理消息未读数|否|
-|setContactsTabDot()|通讯录提示|否|
-|isForeground()|是否在前台|是|
-|getDrawerFragment()|侧滑出来的“我的”页面|否|
-|showContactsTip()|通讯录保护提示，参考基线`AccountUtils`中`showDialogTips`|否|
+
+## TabConfig
+首页底部菜单扩展接口,可以参考样例项目中类[TabConfigImpl](https://git.shinemo.com/projects/YOUBAN/repos/mdos/browse/app/src/main/java/com/example/OneMDOS/TabConfigImpl.java?at=refs%2Fheads%2Fportal)
+```java
+    //需要与getFragment的类型对应
+    boolean isValidMenu(AppMenuVo menuVo);
+    //根据配置返回Fragment
+    Class<?> getFragmentClass(AppMenuVo menuVo);
+    //配置底部导航需要的参数
+    void setArgument(Bundle args);
+    //配置菜单对应的页面，如MessageFragment,ContactFragment
+    Fragment getFragment(AppMenuVo menuVo);
+```
+
+## ComponentConfig
+门户组件扩展接口，可以实现这个接口，根据需求注入项目中新增的门户组件
+```
+    //是否需要统一调用数据源接口
+    boolean needPortalContent(AppPortalElementVo elementVo);
+
+    //ViewHolder视图
+    BasePortalViewHolder getViewHolder(BaseFragment fragment, ViewGroup parent, int elementType);
+```
+
 
 ## IAccountManager
 项目中需要需要实现这个方法
@@ -65,6 +79,17 @@ public interface ICommonManager {
     void startOutSideActivity(Context context, int tab); 
 }
 ```
+
+## PortalMainAction
+集成PortalMainActivity后，需要实现的方法，并不是全部需要实现，
+| 方法 | 描述 |必须|
+|---|------------|---|
+|logout()|退出登录|是|
+|initMessageCount()|处理消息未读数|否|
+|setContactsTabDot()|通讯录提示|否|
+|isForeground()|是否在前台|是|
+|getDrawerFragment()|侧滑出来的“我的”页面|否|
+|showContactsTip()|通讯录保护提示，参考基线`AccountUtils`中`showDialogTips`|否|
 
 # 集成步骤
 1. 添加依赖 `implementation 'com.shinemo:portal:1.0.0'`;
