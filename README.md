@@ -73,6 +73,10 @@ public interface IAccountManager {
     String getName();  //获取用户名
    
     String getCurrentOrgName(); //当前企业名称
+
+    String getPhone(); //获取当前手机号
+   
+   String getMainAccount(); //获取当前account
 }
 ```
 ## ICommonManager
