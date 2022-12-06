@@ -62,21 +62,27 @@
 项目中需要需要实现这个方法
 
 ```java
-public interface IAccountManager {
-    
-    long getNowTime(); // 对应AccountManager的getNowTime()
+public interface IAccountManager { 
    
-    String getUserId(); //用户id
+   long getNowTime(); // 对应AccountManager的getNowTime()
    
-    long getCurrentOrgId(); // 当前企业id
+   String getUserId(); //用户id
    
-    String getName();  //获取用户名
+   long getCurrentOrgId(); // 当前企业id
    
-    String getCurrentOrgName(); //当前企业名称
+   String getName();  //获取用户名
+   
+   String getCurrentOrgName(); //当前企业名称
 
-    String getPhone(); //获取当前手机号
+   String getPhone(); //获取当前手机号
    
    String getMainAccount(); //获取当前account
+   
+   String getHttpToken(long time);
+   
+   String getToken();
+   
+   String getHttpJsonToken();
 }
 ```
 ## ICommonManager
@@ -85,19 +91,46 @@ public interface IAccountManager {
 public interface ICommonManager {
     
     // CommonRedirectActivity.start()
-    void commonRedirectActivityStart(Context context, String uri); 
+   void commonRedirectActivityStart(Context context, String uri); 
     
     //shinemo中HomePageUtils.checkCalendarPermission()
-    void checkCalendarPermission(Activity activity, List<AppPortalElementVo> mModulelist);
+   void checkCalendarPermission(Activity activity, List<AppPortalElementVo> mModulelist);
        
     //shinemo中HomePageUtils.getWeather()
-    void getWeather(Activity activity, CompositeDisposable mCompositeSubscription, TextView tvWeather);
+   void getWeather(Activity activity, CompositeDisposable mCompositeSubscription, TextView tvWeather);
     
     // AppCommonUtils中的getBrandColor
-    String getBrandColor(Context context);
+   String getBrandColor(Context context);
     
     //OutsideActivity.startActivity
-    void startOutSideActivity(Context context, int tab); 
+   void startOutSideActivity(Context context, int tab);
+
+   // 新shinemo基线StarterUtil中startapp
+   void startUtilStartApp(Context context, long appId); 
+   void startUtilStartApp(Context context, FunctionDetail functionDetail);
+   void startUtilStartApp(Context context, long appId, String param,String relativeUrl, boolean disableCache, boolean isShowHome, int naviStyle);
+
+   //WbUtils
+   boolean WbUtilsIsTravel(WorkbenchDetailVo workbenchDetailVo);
+
+   // SimpleDraweeViewUtil
+   void setImgUrl(SimpleDraweeView simpleDraweeView,String url);
+
+   // BaseErrorCodeHandler
+   void handleCommon(AceException aceException, BiConsumer<Integer, String> handler);
+   void handleCommon(Throwable t, BiConsumer<Integer, String> handler);
+
+   //BuildConfig appkey
+   String getAppKey();
+   
+   //启动搜索页面
+   void startSearchActivity(Context context, int type, String key);
+   
+   //启动扫一扫页面
+   void startQrcodeActivity(Activity context);
+   
+   //AnalyticsManager 打点
+   void sendAnalyticsEvent(String event,AppPortalElementVo mComponent);
 }
 ```
 
@@ -111,6 +144,7 @@ public interface ICommonManager {
 |isForeground()|是否在前台|是|
 |getDrawerFragment()|侧滑出来的“我的”页面|否|
 |showContactsTip()|通讯录保护提示，参考基线`AccountUtils`中`showDialogTips`|否|
+|clickMessageTab()|点击了消息|否|
 
 # 集成步骤
 1. 添加依赖 `implementation 'com.shinemo:portal:1.0.0'`;
